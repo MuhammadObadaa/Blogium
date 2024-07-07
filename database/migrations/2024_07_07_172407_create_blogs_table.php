@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('text');
-            $table->foreignId('media_type_id')->nullable()->constrained();
-            $table->string('media_url')->nullable();
             $table->timestamps();
         });
     }

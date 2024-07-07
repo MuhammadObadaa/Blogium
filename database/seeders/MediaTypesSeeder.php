@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\MediaType;
 
 class MediaTypesSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class MediaTypesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('media_types')->insert(['name' => 'image']);
-        DB::table('media_types')->insert(['name' => 'video']);
+        MediaType::create(['name' => 'image']);
+        MediaType::create(['name' => 'video']);
     }
 }
