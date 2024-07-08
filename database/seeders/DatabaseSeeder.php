@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call(MediaTypesSeeder::class);
+        $this->call(SuperAdminSeeder::class);
     }
 }

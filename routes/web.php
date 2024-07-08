@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AuthController as auth;
 use Illuminate\Support\Facades\Route;
@@ -39,5 +40,13 @@ Route::group( ['middleware' => 'guest','as' =>'auth.'], function () {
 });
 
 Route::post('/logout', [auth::class, 'logout'])->middleware('auth')->name('auth.logout');
+
+Route::group(['prefix' => '/admin','as' => 'admin.'],function(){
+
+    Route::post('/setAsAdmin/{user}',[AdminController::class,'setAsAdmin'])->name('setAsAdmin');
+    Route::post('/setOwners/{blog}',[AdminController::class,'setOwners'])->name('setOwners');
+    Route::put('/resetPassword/{admin}',[AdminController::class,'resetPassword'])->name('resetPassword');
+
+});
 
 

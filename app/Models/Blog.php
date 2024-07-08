@@ -9,7 +9,7 @@ class Blog extends Model
 {
     use HasFactory;
 
-    protected $with = ['media'];
+    protected $with = ['media','owners:name'];
 
     /**
      * The attributes that are mass assignable.
@@ -23,11 +23,15 @@ class Blog extends Model
         'media_url',
     ];
 
-    public function users(){
-        return $this->belongsToMany(User::class);
+    public function owners(){
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     public function media(){
         return $this->hasMany(Media::class);
+    }
+
+    public function ownedBy(User $user){
+        return $this->owners()->where('user_id',$user->id)->exists();
     }
 }
