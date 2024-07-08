@@ -6,20 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Media;
 use App\Models\MediaType;
-use Illuminate\Database\Query\Builder;
 
 class BlogController extends Controller
 {
-    //
-    public function index() {
-        $blog = Blog::orderBy('created_at', 'DESC')->get();
-
-        return $blog;
-    }
-
-    public function create(Request $request) {
-
-    }
 
     public function store(Request $request) {
 

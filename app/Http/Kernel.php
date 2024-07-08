@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'AVideoOrImages' => \App\Http\Middleware\AVideoOrImages::class,
+        'AdminUser' => \App\Http\Middleware\AdminUser::class,
     ];
 }

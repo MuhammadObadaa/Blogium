@@ -13,6 +13,9 @@ class AdminController extends Controller
     //
 
     public function resetPassword(Request $request,User $admin){
+
+        $this->authorize('resetPassword',$admin);
+
         $validated = $request->validate([
             'current_password' => 'required|min:8',
             'password' => 'required|confirmed|min:8'
@@ -27,6 +30,8 @@ class AdminController extends Controller
 
     public function setAsAdmin(User $user)
     {
+        $this->authorize('setAsAdmin',$user);
+
         $user->is_admin = true;
 
         $user->update();
@@ -35,6 +40,9 @@ class AdminController extends Controller
     }
 
     public function setOwners(Request $request,Blog $blog){
+
+
+
         $request->validate([
             'users' => 'required|array',
             'users.*' => [
