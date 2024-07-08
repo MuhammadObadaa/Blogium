@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\AuthController as auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,4 +28,16 @@ Route::group(['prefix' => '/blogs','as' => 'blogs.'],function(){
     Route::delete('/{blog}',[BlogController::class,'destroy'])->name('delete')->where('blog','[0-9]+');
 
 });
+
+Route::group( ['middleware' => 'guest','as' =>'auth.'], function () {
+
+    Route::get('/register', [auth::class, 'register'])->name('register');
+    Route::post('/register', [auth::class, 'store'])->name('store');
+    Route::get('/login', [auth::class, 'login'])->name('login');
+    Route::post('/login', [auth::class, 'authenticate'])->name('authenticate');
+
+});
+
+Route::post('/logout', [auth::class, 'logout'])->middleware('auth')->name('auth.logout');
+
 
