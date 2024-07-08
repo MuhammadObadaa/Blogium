@@ -9,6 +9,8 @@ class Blog extends Model
 {
     use HasFactory;
 
+    protected $with = ['media'];
+
     /**
      * The attributes that are mass assignable.
      *
