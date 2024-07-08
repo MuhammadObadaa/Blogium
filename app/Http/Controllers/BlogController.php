@@ -22,6 +22,7 @@ class BlogController extends Controller
     }
 
     public function store(Request $request) {
+
         $validated = $request->validate([
             'title' => 'required|min:3|max:255',
             'text' => 'required|min:3|max:65000',
@@ -30,7 +31,10 @@ class BlogController extends Controller
 
         $blog = Blog::create($validated);
 
-        if($request->has('media')) {
+        $user = auth()->user();
+        $user->blogs()->attach($blog);
+
+        if($request->hasFile('media')) {
             foreach($request->file('media') as $file){
                 $path = $file->store('media', 'public');
 
@@ -46,18 +50,24 @@ class BlogController extends Controller
             }
         }
 
-        return $blog;
+        return redirect()->route('dashboard')->with('success','blog created successfully');
     }
 
     public function show(Blog $blog) {
-        return $blog;
+        return view('blogs.show',compact('blog'));
     }
 
-    public function edit() {
+    public function edit(Blog $blog) {
+        $this->authorize('update',$blog);
 
+        $editing = true;
+
+        return view('blogs.show',compact('blog','editing'));
     }
 
     public function update(Request $request, Blog $blog) {
+        $this->authorize('update',$blog);
+
         $validated = $request->validate([
             'title' => 'required|min:3|max:255',
             'text' => 'required|min:3|max:65000',
@@ -65,10 +75,14 @@ class BlogController extends Controller
 
         $blog->update($validated);
 
-        return $blog;
+        return view('blogs.show',compact('blog'));
     }
 
     public function destroy(Blog $blog) {
+        $this->authorize('destroy',$blog);
+
         $blog->delete();
+
+        return redirect()->route('dashboard')->with('success','blog deleted successfully');
     }
 }

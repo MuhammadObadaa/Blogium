@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AuthController as auth;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,17 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[DashboardController::class,'index'])->name('dashboard');
+Route::get('/terms',function(){return view('terms');})->name('terms');
 
 Route::group(['prefix' => '/blogs','as' => 'blogs.'],function(){
 
     Route::post('/',[BlogController::class,'store'])->name('store');
     Route::get('/',[BlogController::class,'index'])->name('list');
     Route::get('/{blog}',[BlogController::class,'show'])->name('show')->where('blog','[0-9]+');
+    Route::get('/{blog}/edit',[BlogController::class,'edit'])->name('edit')->where('blog','[0-9]+');
     Route::put('/{blog}',[BlogController::class,'update'])->name('update')->where('blog','[0-9]+');
-    Route::delete('/{blog}',[BlogController::class,'destroy'])->name('delete')->where('blog','[0-9]+');
+    Route::delete('/{blog}',[BlogController::class,'destroy'])->name('destroy')->where('blog','[0-9]+');
 
 });
 

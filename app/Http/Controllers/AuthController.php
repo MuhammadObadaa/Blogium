@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         $user = User::create($validated);
 
-        return $user;
+        return redirect()->route('dashboard');
     }
 
     public function login() {
@@ -41,9 +41,10 @@ class AuthController extends Controller
         if (auth()->attempt($validated)) {
             request()->session()->regenerate();
 
-            return auth()->user;
+            return redirect()->route('dashboard');
         }
 
+        return redirect()->route('auth.authenticate');
     }
 
     public function logout() {
@@ -51,6 +52,8 @@ class AuthController extends Controller
 
         request()->session()->invalidate();
         request()->session()->regenerateToken();
+
+        return redirect()->route('dashboard');
     }
 
 }
