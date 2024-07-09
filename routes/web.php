@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AuthController as auth;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,8 +45,18 @@ Route::post('/logout', [auth::class, 'logout'])->middleware('auth')->name('auth.
 
 Route::group(['prefix' => '/admin','as' => 'admin.', 'middleware' => ['auth','admin']],function(){
 
-    Route::post('/setAsAdmin/{user}',[AdminController::class,'setAsAdmin'])->name('setAsAdmin')->where('user','[0-9]+');
-    Route::post('/setOwners/{blog}',[AdminController::class,'setOwners'])->name('setOwners')->where('blog','[0-9]+');
-    Route::put('/resetPassword/{admin}',[AdminController::class,'resetPassword'])->name('resetPassword')->where('admin','[0-9]+');
+    Route::get('/',[AdminController::class,'index'])->name('dashboard');
+
+    Route::get('/blogs',[BlogController::class,'index'])->name('blogs.index');
+    Route::get('/blogs/users/{blog}',[BlogController::class,'owners'])->name('blogs.users')->where('blog','[0-9]+');
+
+    Route::get('/users',[UserController::class,'index'])->name('users.index');
+    Route::get('/users/{user}',[UserController::class,'show'])->name('users.show')->where('user','[0-9]+');
+    Route::get('/users/{user}/edit',[UserController::class,'edit'])->name('users.edit')->where('user','[0-9]+');
+    Route::put('/users/{user}',[UserController::class,'update'])->name('users.update')->where('user','[0-9]+');
+
+    Route::post('/users/{user}/setAsAdmin',[AdminController::class,'setAsAdmin'])->name('users.setAsAdmin')->where('user','[0-9]+');
+    Route::post('/blogs/{blog}/setOwners',[AdminController::class,'setOwners'])->name('blogs.setOwners')->where('blog','[0-9]+');
+    Route::put('/users/{admin}/resetPassword',[AdminController::class,'resetPassword'])->name('users.resetPassword')->where('admin','[0-9]+');
 
 });

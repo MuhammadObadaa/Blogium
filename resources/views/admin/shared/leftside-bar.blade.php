@@ -10,12 +10,8 @@
                     <span>Users</span></a>
             </li>
             <li class="nav-item">
-                <a class="{{(Route::is('admin.ideas.index')) ? 'text-white bg-primary rounded' : ''}} nav-link" href="{{route('admin.ideas.index')}}">
-                    <span>Ideas</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="{{(Route::is('admin.comments.index')) ? 'text-white bg-primary rounded' : ''}} nav-link" href="{{route('admin.comments.index')}}">
-                    <span>Comments</span></a>
+                <a class="{{(Route::is('admin.blogs.index')) ? 'text-white bg-primary rounded' : ''}} nav-link" href="{{route('admin.blogs.index')}}">
+                    <span>Blogs</span></a>
             </li>
         </ul>
     </div>

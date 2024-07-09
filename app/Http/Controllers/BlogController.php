@@ -6,9 +6,30 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\Media;
 use App\Models\MediaType;
+use App\Models\User;
 
 class BlogController extends Controller
 {
+
+    public function index(){
+        $blogs = Blog::orderBy('created_at','DESC');
+
+        return view('admin.blogs.index',['blogs' => $blogs->paginate(5)]);
+    }
+
+    public function owners(Blog $blog) {
+        $users = $blog->owners();
+
+        $userIds = $users->pluck('id')->toArray();
+
+        $otherUsers = User::whereNotIn('id',$userIds)->get();
+
+        return view('admin.users.index',[
+            'users' => $users->paginate(5),
+            'otherUsers' => $otherUsers,
+            'blog' => $blog
+        ]);
+    }
 
     public function store(Request $request) {
 

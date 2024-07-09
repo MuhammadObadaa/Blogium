@@ -1,11 +1,10 @@
 <div class="card">
     <div class="px-3 pt-4 pb-2">
-        <form enctype="multipart/form-data" action="{{route('users.update',$user)}}" method="post">
+        <form enctype="multipart/form-data" action="{{route('admin.users.update',$user)}}" method="post">
             @csrf
             @method('put')
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
-                    <img style="width:150px" class="me-3 avatar-sm rounded-circle" src="{{$user->getImageURL()}}" alt="{{$user->name}} Avatar">
                     <div>
                         <input name="name" value="{{$user->name}}" type="text" class="form-control">
                         @error('name')
@@ -13,33 +12,48 @@
                         @enderror
                     </div>
                 </div>
-                <div>
-                    @auth
-                    @if(Auth::id() === $user->id)
-                    <a href="{{route('users.show',$user->id)}}"> View </a>
-                    @endif
-                    @endauth
+                <br>
+                <div class="d-flex align-items-center">
+                    <div>
+                        <input name="email" value="{{$user->email}}" type="text" class="form-control">
+                        @error('email')
+                        <span class="d-block fs-6 text-danger mt-2"> {{$message}} </span>
+                        @enderror
+                    </div>
                 </div>
             </div>
-            <div class="mt-4">
-                <label for='image'>Profile Picture</label>
-                <input name="image" class="form-control" type="file">
-                @error('image')
-                <span class="d-block fs-6 text-danger mt-2"> {{$message}} </span>
-                @enderror
-            </div>
-            <div class="px-2 mt-4">
-                <h5 class="fs-5"> Bio : </h5>
-                <div class="mb-3">
-                    <textarea class="form-control" name='bio' id="bio" rows="3"></textarea>
-                    @error('bio')
-                    <spam class="fs-6 text-danger mt-2">{{ $message }}</spam>
-                    @enderror
-                </div>
-                <button class="btn btn-dark btn-sm mb-3"> Save </button>
-                @include('users.shared.user-stats')
-            </div>
+        <button type="submit">change</button>
         </form>
+        @can('resetPassword',$user)
+            <form action="{{route('admin.users.resetPassword',$user)}}" method="post">
+            @method('put')
+                <div class="d-flex align-items-center">
+                    <div>
+                        currentPassword:
+                        <input type="password" name="currentPassword" type="text" class="form-control">
+                        @error('currentPassword')
+                        <span class="d-block fs-6 text-danger mt-2"> {{$message}} </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div>
+                        password:
+                        <input type="password" name="password" type="text" class="form-control">
+                        @error('password')
+                        <span class="d-block fs-6 text-danger mt-2"> {{$message}} </span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div>
+                        confirm password:
+                        <input type="password" name="password_confirmation" type="text" class="form-control">
+                    </div>
+                </div>
+                <button type="submit">submit</button>
+            </form>
+        @endcan
     </div>
 </div>
 <hr>

@@ -7,26 +7,28 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function profile()
-    {
-        return $this->show(auth()->user());
+    public function index(){
+        $users = User::orderBy('id','ASC');
+
+        return view('admin.users.index',['users' => $users->paginate(5)]);
     }
 
     public function show(User $user)
     {
-        $ideas = $user->ideas()->paginate(5);
+        $blogs = $user->blogs()->paginate(5);
 
-        return view('users.show', compact('user', 'ideas'));
+        return view('users.show', compact('user', 'blogs'));
     }
 
     public function edit(User $user)
     {
         $this->authorize('update',$user);
 
-        $ideas = $user->ideas()->paginate(5);
+        $blogs = $user->blogs()->paginate(5);
+
         $editing = true;
 
-        return view('users.show', compact('user', 'ideas', 'editing'));
+        return view('users.show', compact('user', 'editing','blogs'));
     }
 
     public function update(Request $request,User $user)
@@ -35,6 +37,6 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('profile');
+        return redirect()->route('admin.users.show',$user);
     }
 }

@@ -17,7 +17,7 @@
                 @auth
                 @if(Auth::user()->is_admin)
                 <li class="nav-item">
-                    <a class="{{(Route::is('dashboard'))? 'active' : ''}} nav-link" href="{{route('dashboard')}}">Admin dashboard</a>
+                    <a class="{{(Route::is('admin.dashboard'))? 'active' : ''}} nav-link" href="{{route('admin.dashboard')}}">Admin dashboard</a>
                 </li>
                 @endif
                 @can('profile',auth()->user())
