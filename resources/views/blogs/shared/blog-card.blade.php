@@ -56,7 +56,7 @@
                       <source src="{{$m->getURL()}}" type="video/mp4">
                     </video>
                 @else
-                    <img src="{{$m->getURL()}}" style="height:50%;width:50%">
+                    <img src="{{$m->getURL()}}" class="rounded mx-auto d-block" style="height:50%;width:50%">
                 @endif
             @empty
             @endforelse

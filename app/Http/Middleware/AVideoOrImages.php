@@ -29,14 +29,24 @@ class AVideoOrImages
             }elseif(explode('/',$file->getMimeType())[0] === 'image'){
                 $imageCount++;
             }else{
-                return $this->error('Media can be either a video or images',402);
+                $errors = (object)array('media.*' => ['one video or multiple images only']);
+
+                return redirect()->back()->withErrors($errors);
             }
         }
 
         if($videoCount > 1)
-            return $this->error('Multiple videos in blog are previnted',402);
+        {
+            $errors = (object)array('media.*' => ['one video at most']);
+
+            return redirect()->back()->withErrors($errors);
+        }
         elseif($videoCount == 1 && $imageCount > 0)
-            return $this->error('Media can be either a video or images',402);
+        {
+            $errors = (object)array('media.*' => ['one video or multiple images only']);
+
+            return redirect()->back()->withErrors($errors);
+        }
 
         return $next($request);
     }

@@ -23,9 +23,15 @@ class AuthController extends Controller
 
         $validated['password'] = Hash::make($validated['password']);
 
-        $user = User::create($validated);
+        User::create($validated);
 
-        return redirect()->route('dashboard');
+        return $this->authenticate($request);
+
+        /* this redirects to auth.login route
+         * return redirect()
+         *  ->route('auth.dashboard')
+         *  ->with($request->only('emai','password'));
+         */
     }
 
     public function login() {
@@ -33,7 +39,7 @@ class AuthController extends Controller
     }
 
     public function authenticate(Request $request) {
-        $validated = $request->validate( [
+        $validated = $request->validate([
                 'email' => 'required|email',
                 'password' => 'required|min:8'
             ]);
@@ -44,7 +50,9 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return redirect()->route('auth.authenticate');
+        $errors = (object)array('email' => ['invalid email or password']);
+
+        return redirect()->back()->withErrors($errors);
     }
 
     public function logout() {

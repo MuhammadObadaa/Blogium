@@ -10,7 +10,7 @@
     <div class="col-9">
         <h1> Users
             @if(Route::is('admin.blogs.users'))
-                of {{$blog->title}} blog
+                of "{{$blog->title}}" blog
             @endif
         </h1>
         <table class="table table-striped mt-3">
